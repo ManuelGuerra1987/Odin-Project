@@ -1,42 +1,30 @@
-function add(num1,num2){
-  return num1 + num2;  
-}
-
-function subtract(num1,num2){
-  return num1 - num2;  
-}
-
-function multiply(num1,num2){
-  return num1 * num2;  
-}
-
-function divide(num1,num2){
-  return (num1 / num2).toFixed(2);
-}
-
 let number1;
 let number2;
 let operator;
+let counter = 0;
 
 
+//Operate function
 function operate(num1,num2,operator){
+
   if (operator === "+"){
-    return add(num1,num2);
+    return num1 + num2;
   }
   else if (operator === "-"){
-    return subtract(num1,num2);
+    return num1 - num2;
   }
   else if (operator === "*"){
-    return multiply(num1,num2);
+    return num1 * num2;
   }
   else if (operator === "/" && parseInt(num2) !== 0){
-    return divide(num1,num2);
+    return (num1 / num2).toFixed(2);
   }
   else if (operator === "/" && parseInt(num2) === 0){
     return "Error: division by zero";
   }
 }
 
+//Number buttons
 let visorSpan = document.querySelector("#visor");
 const numButtons = document.querySelectorAll(".number-buttons");
 let numberTemp = "";
@@ -51,11 +39,9 @@ numButtons.forEach((numButton) => {
   });
 });
 
-let counter = 0;
 
-const OperatorButtons = document.querySelectorAll(".number-operators");
-
-OperatorButtons.forEach((OperatorButton) => {
+//Operator buttons
+document.querySelectorAll(".number-operators").forEach((OperatorButton) => {
        
   OperatorButton.addEventListener("click", () => {
 
@@ -78,16 +64,17 @@ OperatorButtons.forEach((OperatorButton) => {
   });
 });
 
+//Equal button
 document.querySelector("#equal").addEventListener("click", () => {
+
   number2 = parseFloat(numberTemp);
   visorSpan.textContent = operate(number1,number2,operator);
-
 });
 
 
-const clearButton = document.querySelector("#clear");
+//Clear button
+document.querySelector("#clear").addEventListener("click", () => {
 
-clearButton.addEventListener("click", () => {
   visorSpan.innerHTML = "";
   numberTemp = "";
   number1 = 0;
