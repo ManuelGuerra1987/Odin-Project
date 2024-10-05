@@ -21,6 +21,35 @@ function addBookToLibrary(book) {
   
 }
 
+function showBooks() {
+
+  const booksContainer = document.querySelector("#books-container");
+  booksContainer.innerHTML = "";
+
+  myLibrary.forEach((book) => {
+
+    const bookDiv = document.createElement('div'); 
+    bookDiv.className = 'book-card'; 
+
+    const titleElement = document.createElement("p");
+    titleElement.textContent = `Title: ${book.title}`;
+
+    const authorElement = document.createElement("p");
+    authorElement.textContent = `Author: ${book.author}`;
+
+    const pagesElement = document.createElement("p");
+    pagesElement.textContent = `Pages: ${book.pages}`;
+
+    bookDiv.appendChild(titleElement);
+    bookDiv.appendChild(authorElement);
+    bookDiv.appendChild(pagesElement);
+    
+    booksContainer.appendChild(bookDiv);
+
+  });
+
+}
+
 document.querySelector("#submit-button").addEventListener("click", () => {
 
   const title = document.querySelector("#form-title").value;
@@ -36,6 +65,7 @@ document.querySelector("#submit-button").addEventListener("click", () => {
   document.querySelector("#form-pages").value = "";
 
   console.log(myLibrary);
+  showBooks();
 });
 
 
