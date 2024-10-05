@@ -1,5 +1,7 @@
+//Array for book storing
 const myLibrary = [];
 
+//book constructor
 function Book(title, author, pages) {
   this.title = title;
   this.author = author;
@@ -15,18 +17,20 @@ function Book(title, author, pages) {
   }
 }
 
+
 function addBookToLibrary(book) {
 
   myLibrary.push(book);
   
 }
 
+
 function showBooks() {
 
   const booksContainer = document.querySelector("#books-container");
   booksContainer.innerHTML = "";
 
-  myLibrary.forEach((book) => {
+  myLibrary.forEach((book, index) => {
 
     const bookDiv = document.createElement('div'); 
     bookDiv.className = 'book-card'; 
@@ -40,9 +44,23 @@ function showBooks() {
     const pagesElement = document.createElement("p");
     pagesElement.textContent = `Pages: ${book.pages}`;
 
+    const button = document.createElement('button');
+    button.textContent = "Remove";
+    button.setAttribute('data-index', index);
+    button.className = 'remove-button';
+
+    button.addEventListener('click', function(){
+
+      const index = button.getAttribute('data-index');
+      myLibrary.splice(index, 1);
+      showBooks();
+
+    });
+
     bookDiv.appendChild(titleElement);
     bookDiv.appendChild(authorElement);
     bookDiv.appendChild(pagesElement);
+    bookDiv.appendChild(button);
     
     booksContainer.appendChild(bookDiv);
 
@@ -50,6 +68,7 @@ function showBooks() {
 
 }
 
+//Add book
 document.querySelector("#submit-button").addEventListener("click", () => {
 
   const title = document.querySelector("#form-title").value;
@@ -67,7 +86,4 @@ document.querySelector("#submit-button").addEventListener("click", () => {
   console.log(myLibrary);
   showBooks();
 });
-
-
-
 
