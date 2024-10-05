@@ -86,3 +86,12 @@ input[type="text"]:hover, input[type="number"]:hover {
     border: 1px solid transparent;
   }
 
+  .read-button{
+    background-color:  #0fec72;
+    color: black
+  }
+
+  .not-read-button{
+    background-color:  #f5540a;
+    color: black
+  }

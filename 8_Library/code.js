@@ -57,10 +57,43 @@ function showBooks() {
 
     });
 
+    const buttonRead = document.createElement('button');
+
+    if (book.read){
+      buttonRead.textContent = "Mark as not read";
+      buttonRead.setAttribute('data-index', index);
+      buttonRead.className = 'read-button';
+
+      buttonRead.addEventListener('click', function(){
+
+        const index = buttonRead.getAttribute('data-index');
+        myLibrary[index].read = false;
+        showBooks();
+  
+      });
+    }
+
+    else{
+      buttonRead.textContent = "Mark as read";
+      buttonRead.setAttribute('data-index', index);
+      buttonRead.className = 'not-read-button';
+
+      buttonRead.addEventListener('click', function(){
+
+        const index = buttonRead.getAttribute('data-index');
+        myLibrary[index].read = true;
+        showBooks();
+  
+      });
+    }
+
+
+
     bookDiv.appendChild(titleElement);
     bookDiv.appendChild(authorElement);
     bookDiv.appendChild(pagesElement);
     bookDiv.appendChild(button);
+    bookDiv.appendChild(buttonRead);
     
     booksContainer.appendChild(bookDiv);
 
