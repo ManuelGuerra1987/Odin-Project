@@ -1,4 +1,4 @@
-// player module pattern
+//Module pattern: Player
 const player = (function () {
 
   let active = true;
@@ -19,7 +19,7 @@ const player = (function () {
 
 })();
 
-// game module pattern
+//Module pattern: Game
 const game = (function () {
 
   let active = true;
@@ -41,7 +41,7 @@ const game = (function () {
 })();
 
 
-// gameboard module pattern
+//Module pattern: Gameboard
 const gameboard = (function () {
 
   let board  = ["","","","","","","","",""];
@@ -52,7 +52,7 @@ const gameboard = (function () {
       
       document.querySelector(`[data-id="${i}"]`).textContent = board[i];
       }  
-      }
+    }
     
   
 
@@ -138,7 +138,7 @@ const gameboard = (function () {
 
 })();
 
-//Print current winner
+//Print current player
 function printCurrentPlayer(){
 
   if (player.isActive()){
