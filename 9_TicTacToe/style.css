@@ -16,6 +16,14 @@ body{
     background-color: rgb(6, 245, 165);
 }
 
+#current-user{
+    text-align: center; font-family: 'Montserrat', sans-serif; font-size: 48px;
+}
+
+#container-restart{
+    display: flex; justify-content: center; margin: 0 auto; 
+}
+
 
 
 
