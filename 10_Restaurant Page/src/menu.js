@@ -1,5 +1,22 @@
 const content = document.getElementById("content");
 
+// Factory function to create menu items
+function createMenuItem(titleText, ingredientsText) {
+    const optionDiv = document.createElement('div');
+    optionDiv.className = 'menu-card';
+
+    const titleElement = document.createElement("p");
+    titleElement.textContent = titleText;
+    titleElement.style.fontSize = "35px";
+    optionDiv.appendChild(titleElement);
+
+    const ingredientsElement = document.createElement("p");
+    ingredientsElement.textContent = ingredientsText;
+    optionDiv.appendChild(ingredientsElement);
+
+    return optionDiv;
+}
+
 function getMenu(){
 
     // Title
@@ -15,69 +32,20 @@ function getMenu(){
     const menuDiv = document.createElement('div'); 
     menuDiv.className = 'menu-container'; 
 
-    //Option 1
-    const option1Div = document.createElement('div'); 
-    option1Div.className = 'menu-card';
+    // Use factory to create menu items
+    const menuItems = [
+        { title: "Peperoni pizza", ingredients: "Tomato sauce, Mozarella, Peperoni" },
+        { title: "Pomodoro pizza", ingredients: "Tomato sauce, Mozarella, Tomato, Onion" },
+        { title: "Quattro formaggi pizza", ingredients: "Tomato sauce, Mozarella, Gorgonzola, Parmigiano Reggiano, Goat cheese" },
+        { title: "Prosciuto e rucola pizza", ingredients: "Pomodoro italiano, Mozzarella fior di latte, Rucola, Prosciutto, Bocconcino, Pomodorini asados" }
+    ];
 
-    const title1Element = document.createElement("p");
-    title1Element.textContent = "Peperoni pizza";
-    title1Element.style.fontSize = "35px";
-    option1Div.appendChild(title1Element);
+    menuItems.forEach(item => {
+        const menuItem = createMenuItem(item.title, item.ingredients);
+        menuDiv.appendChild(menuItem);
+    });
 
-    const ingredients1Element = document.createElement("p");
-    ingredients1Element.textContent = "Tomato sauce, Mozarella, peperoni";
-    option1Div.appendChild(ingredients1Element);
-
-    menuDiv.appendChild(option1Div);
-
-    //Option 2
-    const option2Div = document.createElement('div'); 
-    option2Div.className = 'menu-card';
-    
-    const title2Element = document.createElement("p");
-    title2Element.textContent = "Pomodoro pizza";
-    title2Element.style.fontSize = "35px";
-    option2Div.appendChild(title2Element);
-    
-    const ingredients2Element = document.createElement("p");
-    ingredients2Element.textContent = "Tomato sauce, Mozarella, Tomato, Onion";
-    option2Div.appendChild(ingredients2Element);
-    
-    menuDiv.appendChild(option2Div);
-
-    //Option 3
-    const option3Div = document.createElement('div'); 
-    option3Div.className = 'menu-card';
-    
-    const title3Element = document.createElement("p");
-    title3Element.textContent = "Quattro formaggi pizza";
-    title3Element.style.fontSize = "35px";
-    option3Div.appendChild(title3Element);
-    
-    const ingredients3Element = document.createElement("p");
-    ingredients3Element.textContent = "Tomato sauce, Mozarella, gorgonzola, Parmigiano Reggiano, and goat cheese";
-    option3Div.appendChild(ingredients3Element);
-    
-    menuDiv.appendChild(option3Div);    
-
-    content.appendChild(menuDiv);
-
-    //Option 4
-    const option4Div = document.createElement('div'); 
-    option4Div.className = 'menu-card';
-    
-    const title4Element = document.createElement("p");
-    title4Element.textContent = "Prosciuto e rucola pizza";
-    title4Element.style.fontSize = "35px";
-    option4Div.appendChild(title4Element);
-    
-    const ingredients4Element = document.createElement("p");
-    ingredients4Element.textContent = "Pomodoro italiano, mozzarella fior di latte, colchón di rucola, prosciutto, bocconcino, pomodorini asados";
-    option4Div.appendChild(ingredients4Element);
-    
-    menuDiv.appendChild(option4Div);    
-
-    content.appendChild(menuDiv);    
+    content.appendChild(menuDiv);   
 
 }
 
