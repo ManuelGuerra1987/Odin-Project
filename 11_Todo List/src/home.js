@@ -58,9 +58,58 @@ function createProjectForm() {
 
 }
 
-function displayTasks(projectTitle){
+function removeTask(taskTitle){
 
+    const index = allTasks.findIndex(task => task.title === taskTitle);
+
+    if (index !== -1) {
+        allTasks.splice(index, 1); 
+    }
+}
+
+function displayTasks(tasks){
+
+    const tasksContainer = document.createElement('div');
+
+    tasks.forEach(task =>{
+    
+        const taskDiv = document.createElement('div');
+        taskDiv.className = 'task-div';
+
+        const titleSpan = document.createElement("span");
+        titleSpan.textContent = `${task.title} - Priority: ${task.priority} - DueDate: ${task.dueDate} - Status: ${task.isCompleted}`;
+        taskDiv.appendChild(titleSpan);
+
+        const completeButton = document.createElement('button');
+        completeButton.className = 'header-button';
+        completeButton.textContent = "Mark as completed";
+        taskDiv.appendChild(completeButton);
+        completeButton.addEventListener('click', () => {
+            task.isCompleted = true;
+            displayHome();
+        });
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'header-button';
+        removeButton.textContent = "Delete";
+        taskDiv.appendChild(removeButton);
+        removeButton.addEventListener('click', () => {
+            task.isCompleted = true;
+            removeTask(task.title);
+            displayHome();
+        });
+
+        tasksContainer.appendChild(taskDiv);
+
+    });
+    return tasksContainer;
+}
+
+function displayTasksByProject(projectTitle){
+
+    //Clean previous content
     mainDiv.innerHTML = "";
+    
     //Header
     const headerDiv = document.createElement('div');
     headerDiv.className = 'header-main';
@@ -80,24 +129,14 @@ function displayTasks(projectTitle){
     
     mainDiv.appendChild(headerDiv);
 
-    //tasks
+    //Display tasks by project
     const tasksDiv = document.createElement('div');
     tasksDiv.className = 'tasks-div';
 
     let tasks = allTasks.filter(task => task.project === projectTitle);
 
-    tasks.forEach(task =>{
-    
-        const taskDiv = document.createElement('div');
-        taskDiv.className = 'task-div';
-
-        const titleSpan = document.createElement("span");
-        titleSpan.textContent = `${task.title} - Priority: ${task.priority} - DueDate: ${task.dueDate}`;
-        taskDiv.appendChild(titleSpan);
-
-        tasksDiv.appendChild(taskDiv);
-
-    });
+    const tasksContainer = displayTasks(tasks);
+    tasksDiv.appendChild(tasksContainer);
 
     mainDiv.appendChild(tasksDiv);
 
@@ -131,7 +170,7 @@ function displaySidebar(){
             projectbutton.className = 'sidebar-button-project';
             projectbutton.textContent = `${project}`;
             projectbutton.addEventListener('click', () => {
-                displayTasks(`${project}`);
+                displayTasksByProject(`${project}`);
     
             });
             sidebarDiv.appendChild(projectbutton);
@@ -171,23 +210,13 @@ function displayMain(){
     
     mainDiv.appendChild(headerDiv);
 
-    //All tasks
+    //Display all tasks
     const tasksDiv = document.createElement('div');
     tasksDiv.className = 'tasks-div';
-
-    allTasks.forEach(task =>{
     
-        const taskDiv = document.createElement('div');
-        taskDiv.className = 'task-div';
-
-        const titleSpan = document.createElement("span");
-        titleSpan.textContent = `${task.title} - Priority: ${task.priority} - DueDate: ${task.dueDate}`;
-        taskDiv.appendChild(titleSpan);
-
-        tasksDiv.appendChild(taskDiv);
-
-    });
-
+    const tasksContainer = displayTasks(allTasks);
+    tasksDiv.appendChild(tasksContainer);
+    
     mainDiv.appendChild(tasksDiv);
 
 }
