@@ -67,3 +67,12 @@ body {
   background-color: #f9f9f9; border: 2px solid #ccc; border-radius: 10px;
   z-index: 1000;  /* Para asegurarse de que esté sobre otros elementos */
 }
+
+.tasks-div{
+  display:flex; flex-direction: column;
+}
+
+.task-div {
+  display: flex; flex-direction: row; padding: 10px; margin: 10px 0; border: 1px solid #ccc; 
+  border-radius: 10px;  background-color: #f9f9f9;  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); 
+}

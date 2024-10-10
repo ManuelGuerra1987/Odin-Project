@@ -23,6 +23,7 @@ function createTaskForm() {
         const myTask = createTask(project, title, description, dueDate, priority, false);
 
         allTasks.push(myTask);
+        displayMain();
         document.body.removeChild(formDiv);
         console.log(allTasks);
         
@@ -99,7 +100,8 @@ function displaySidebar(){
 
 function displayMain(){
 
-    //Main content
+    mainDiv.innerHTML = "";
+    //Header
     const headerDiv = document.createElement('div');
     headerDiv.className = 'header-main';
 
@@ -117,6 +119,25 @@ function displayMain(){
     headerDiv.appendChild(AddTaskButton);
     
     mainDiv.appendChild(headerDiv);
+
+    //All tasks
+    const tasksDiv = document.createElement('div');
+    tasksDiv.className = 'tasks-div';
+
+    allTasks.forEach(task =>{
+    
+        const taskDiv = document.createElement('div');
+        taskDiv.className = 'task-div';
+
+        const titleSpan = document.createElement("span");
+        titleSpan.textContent = `${task.title} - Priority: ${task.priority} - DueDate: ${task.dueDate}`;
+        taskDiv.appendChild(titleSpan);
+
+        tasksDiv.appendChild(taskDiv);
+
+    });
+
+    mainDiv.appendChild(tasksDiv);
 
 }
 
