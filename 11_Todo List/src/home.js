@@ -70,39 +70,74 @@ function removeTask(taskTitle){
 function displayTasks(tasks){
 
     const tasksContainer = document.createElement('div');
+    tasksContainer.className = 'tasks-div';
 
     tasks.forEach(task =>{
     
         const taskDiv = document.createElement('div');
         taskDiv.className = 'task-div';
 
+        const taskSpanDiv = document.createElement('div');
+        taskSpanDiv.className = 'task-span-div';
+
+        if (task.isCompleted){
+            taskSpanDiv.style.textDecoration = 'line-through';
+        }
+
         const titleSpan = document.createElement("span");
-        titleSpan.textContent = `${task.title} - Priority: ${task.priority} - DueDate: ${task.dueDate} - Status: ${task.isCompleted}`;
-        taskDiv.appendChild(titleSpan);
+        titleSpan.textContent = `${task.title} - Priority: ${task.priority} - DueDate: ${task.dueDate}`;
+        taskSpanDiv.appendChild(titleSpan);
+
+        const buttonsDiv = document.createElement('div');
+        buttonsDiv.className = 'task-buttons-div';
 
         const completeButton = document.createElement('button');
-        completeButton.className = 'header-button';
+        completeButton.className = 'mark-complete-button';
         completeButton.textContent = "Mark as completed";
-        taskDiv.appendChild(completeButton);
+        buttonsDiv.appendChild(completeButton);
         completeButton.addEventListener('click', () => {
             task.isCompleted = true;
             displayHome();
         });
 
         const removeButton = document.createElement('button');
-        removeButton.className = 'header-button';
+        removeButton.className = 'remove-button';
         removeButton.textContent = "Delete";
-        taskDiv.appendChild(removeButton);
+        buttonsDiv.appendChild(removeButton);
         removeButton.addEventListener('click', () => {
             task.isCompleted = true;
             removeTask(task.title);
             displayHome();
         });
 
+        taskDiv.appendChild(taskSpanDiv);
+        taskDiv.appendChild(buttonsDiv);
         tasksContainer.appendChild(taskDiv);
 
     });
     return tasksContainer;
+}
+
+function displayMainHeader(title){
+
+    const headerDiv = document.createElement('div');
+    headerDiv.className = 'header-main';
+
+    const taskSpan = document.createElement("span");
+    taskSpan.className = 'sidebar-title';
+    taskSpan.textContent = `${title} tasks`;
+    headerDiv.appendChild(taskSpan);
+    
+    const AddTaskButton = document.createElement('button');
+    AddTaskButton.className = 'header-button';
+    AddTaskButton.textContent = "Add task";
+    AddTaskButton.addEventListener('click', () => {
+        createTaskForm();
+    });
+    headerDiv.appendChild(AddTaskButton);
+    
+    mainDiv.appendChild(headerDiv);
+
 }
 
 function displayTasksByProject(projectTitle){
@@ -111,113 +146,77 @@ function displayTasksByProject(projectTitle){
     mainDiv.innerHTML = "";
     
     //Header
-    const headerDiv = document.createElement('div');
-    headerDiv.className = 'header-main';
-
-    const taskSpan = document.createElement("span");
-    taskSpan.className = 'sidebar-title';
-    taskSpan.textContent = `${projectTitle} tasks`;
-    headerDiv.appendChild(taskSpan);
-    
-    const AddTaskButton = document.createElement('button');
-    AddTaskButton.className = 'header-button';
-    AddTaskButton.textContent = "Add task";
-    AddTaskButton.addEventListener('click', () => {
-        createTaskForm();
-    });
-    headerDiv.appendChild(AddTaskButton);
-    
-    mainDiv.appendChild(headerDiv);
+    displayMainHeader(projectTitle);
 
     //Display tasks by project
-    const tasksDiv = document.createElement('div');
-    tasksDiv.className = 'tasks-div';
+    const tasks = allTasks.filter(task => task.project === projectTitle);
+    const tasksDiv = displayTasks(tasks);
+    mainDiv.appendChild(tasksDiv);
 
-    let tasks = allTasks.filter(task => task.project === projectTitle);
+}
 
-    const tasksContainer = displayTasks(tasks);
-    tasksDiv.appendChild(tasksContainer);
 
+
+function displayMain(){
+
+    //Clean previous content
+    mainDiv.innerHTML = "";
+
+    //Header
+    let All = "All";
+    displayMainHeader(All);
+
+    //Display all tasks  
+    const tasksDiv = displayTasks(allTasks);
     mainDiv.appendChild(tasksDiv);
 
 }
 
 function displaySidebar(){
 
-        sidebarDiv.innerHTML = "";
-        //Sidebar content
-        const titleElement = document.createElement("p");
-        titleElement.className = 'sidebar-title';
-        titleElement.textContent = "Home";
-        sidebarDiv.appendChild(titleElement);
-    
-        const AllTasksbutton = document.createElement('button');
-        AllTasksbutton.className = 'sidebar-button';
-        AllTasksbutton.textContent = "All tasks";
-        sidebarDiv.appendChild(AllTasksbutton);
-        AllTasksbutton.addEventListener('click', () => {
-            displayMain();
-        });
-    
-        const titleElement2 = document.createElement("p");
-        titleElement2.className = 'sidebar-title';
-        titleElement2.textContent = "Projects: ";
-        sidebarDiv.appendChild(titleElement2);
-    
-        projects.forEach(project =>{
-    
-            const projectbutton = document.createElement('button');
-            projectbutton.className = 'sidebar-button-project';
-            projectbutton.textContent = `${project}`;
-            projectbutton.addEventListener('click', () => {
-                displayTasksByProject(`${project}`);
-    
-            });
-            sidebarDiv.appendChild(projectbutton);
-    
-        });
-    
-        const Projectsbutton = document.createElement('button');
-        Projectsbutton.className = 'sidebar-button';
-        Projectsbutton.textContent = "+  Add project";
-        Projectsbutton.addEventListener('click', () => {
-            createProjectForm();
+    //Clean previous content
+    sidebarDiv.innerHTML = "";
 
-        });
-        sidebarDiv.appendChild(Projectsbutton);
+    //Sidebar content
+    const titleElement = document.createElement("p");
+    titleElement.className = 'sidebar-title';
+    titleElement.textContent = "Home";
+    sidebarDiv.appendChild(titleElement);
 
-}
-
-function displayMain(){
-
-    mainDiv.innerHTML = "";
-    //Header
-    const headerDiv = document.createElement('div');
-    headerDiv.className = 'header-main';
-
-    const taskSpan = document.createElement("span");
-    taskSpan.className = 'sidebar-title';
-    taskSpan.textContent = "All tasks";
-    headerDiv.appendChild(taskSpan);
-    
-    const AddTaskButton = document.createElement('button');
-    AddTaskButton.className = 'header-button';
-    AddTaskButton.textContent = "Add task";
-    AddTaskButton.addEventListener('click', () => {
-        createTaskForm();
+    const AllTasksbutton = document.createElement('button');
+    AllTasksbutton.className = 'sidebar-button';
+    AllTasksbutton.textContent = "All tasks";
+    sidebarDiv.appendChild(AllTasksbutton);
+    AllTasksbutton.addEventListener('click', () => {
+        displayMain();
     });
-    headerDiv.appendChild(AddTaskButton);
-    
-    mainDiv.appendChild(headerDiv);
 
-    //Display all tasks
-    const tasksDiv = document.createElement('div');
-    tasksDiv.className = 'tasks-div';
-    
-    const tasksContainer = displayTasks(allTasks);
-    tasksDiv.appendChild(tasksContainer);
-    
-    mainDiv.appendChild(tasksDiv);
+    const titleElement2 = document.createElement("p");
+    titleElement2.className = 'sidebar-title';
+    titleElement2.textContent = "Projects: ";
+    sidebarDiv.appendChild(titleElement2);
+
+    projects.forEach(project =>{
+
+        const projectbutton = document.createElement('button');
+        projectbutton.className = 'sidebar-button-project';
+        projectbutton.textContent = `${project}`;
+        projectbutton.addEventListener('click', () => {
+            displayTasksByProject(`${project}`);
+
+        });
+        sidebarDiv.appendChild(projectbutton);
+
+    });
+
+    const Projectsbutton = document.createElement('button');
+    Projectsbutton.className = 'sidebar-button';
+    Projectsbutton.textContent = "+  Add project";
+    Projectsbutton.addEventListener('click', () => {
+        createProjectForm();
+
+    });
+    sidebarDiv.appendChild(Projectsbutton);
 
 }
 

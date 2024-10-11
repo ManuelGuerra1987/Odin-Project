@@ -75,5 +75,23 @@ body {
 .task-div {
   display: flex; flex-direction: row; padding: 10px; margin: 10px 0; border: 1px solid #ccc; 
   border-radius: 10px;  background-color: #f9f9f9;  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); 
-  font-size: 20px; margin-top: 10px;
+  font-size: 20px; margin-top: 10px; justify-content:space-between; 
+}
+
+.remove-button {
+  display: block; width: 50px; padding: 10px; margin-bottom: 10px; background-color: #f30b17;
+  color: white; border: none; cursor: pointer; border-radius: 5px; margin-left: 10px; margin-top: 0px;
+}
+
+.mark-complete-button {
+  display: block; width: 150px; padding: 10px; margin-bottom: 10px; background-color: #0bf332;
+  color: white; border: none; cursor: pointer; border-radius: 5px; margin-left: 10px; margin-top: 0px;
+}
+
+.task-buttons-div{
+  display: flex; flex-direction: row;
+}
+
+.task-span-div {
+  display: flex; flex-direction: row; 
 }
