@@ -73,6 +73,63 @@ class Tree {
       }
 
     }
+
+    delete(value){
+
+      let currNode = this.root;
+
+      
+      while(true){
+
+        if(value < currNode.value && currNode.leftChild !== null){
+          // Leaf node case
+          if(value === currNode.leftChild.value && currNode.leftChild.leftChild === null && currNode.leftChild.rightChild === null ){
+            currNode.leftChild = null;
+            break;
+          }
+          // 1 leftchild case
+          else if(value === currNode.leftChild.value && currNode.leftChild.leftChild !== null && currNode.leftChild.rightChild === null ){
+            currNode.leftChild = currNode.leftChild.leftChild;
+            break;
+          }
+          // 1 rightchild case
+          else if(value === currNode.leftChild.value && currNode.leftChild.leftChild === null && currNode.leftChild.rightChild !== null ){
+            currNode.leftChild = currNode.leftChild.rightChild;
+            break;
+          }          
+          else{
+            currNode = currNode.leftChild;
+          }
+
+        }
+        else if(value > currNode.value && currNode.rightChild !== null){
+          // Leaf node case
+          if(value === currNode.rightChild.value && currNode.rightChild.leftChild === null && currNode.rightChild.rightChild === null ){
+            currNode.rightChild = null;
+            break;
+          }
+          // 1 leftchild case
+          else if(value === currNode.rightChild.value && currNode.rightChild.leftChild !== null && currNode.rightChild.rightChild === null ){
+            currNode.rightChild = currNode.rightChild.leftChild;
+            break;
+          }
+          // 1 rightchild case
+          else if(value === currNode.rightChild.value && currNode.rightChild.leftChild === null && currNode.rightChild.rightChild !== null ){
+            currNode.rightChild = currNode.rightChild.rightChild;
+            break;
+          }          
+          else{
+            currNode = currNode.rightChild;
+          }
+
+        }
+        else{
+          break;
+        }
+      }
+
+
+    }
 }
 
 let arr = [1,2,3,4,5,6,7,8,9];
@@ -97,3 +154,4 @@ function prettyPrint (nodex, prefix = "", isLeft = true) {
 
   prettyPrint(nodex);
 
+  
