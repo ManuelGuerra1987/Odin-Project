@@ -96,7 +96,13 @@ class Tree {
           else if(value === currNode.leftChild.value && currNode.leftChild.leftChild === null && currNode.leftChild.rightChild !== null ){
             currNode.leftChild = currNode.leftChild.rightChild;
             break;
-          }          
+          }   
+          // 2 childs case
+          else if(value === currNode.leftChild.value && currNode.leftChild.leftChild !== null && currNode.leftChild.rightChild !== null ){
+            currNode.leftChild.value = currNode.leftChild.leftChild.value;
+            currNode.leftChild.leftChild = null;
+            break;
+          }                   
           else{
             currNode = currNode.leftChild;
           }
@@ -117,7 +123,13 @@ class Tree {
           else if(value === currNode.rightChild.value && currNode.rightChild.leftChild === null && currNode.rightChild.rightChild !== null ){
             currNode.rightChild = currNode.rightChild.rightChild;
             break;
-          }          
+          }   
+          // 2 childs case
+          else if(value === currNode.rightChild.value && currNode.rightChild.leftChild !== null && currNode.rightChild.rightChild !== null ){
+            currNode.rightChild.value = currNode.rightChild.rightChild.value;
+            currNode.rightChild.rightChild = null;
+            break;
+          }                   
           else{
             currNode = currNode.rightChild;
           }
@@ -130,13 +142,47 @@ class Tree {
 
 
     }
+
+    traversal(){
+
+      let root = this.root;
+      let arrayNumbers = [];
+      let queue = [];
+
+      queue.push(root);
+
+      while(queue.length > 0){
+
+        let currNode = queue.shift();
+
+        arrayNumbers.push(currNode.value)
+
+        if (currNode.leftChild !== null){
+          queue.push(currNode.leftChild);
+        }
+        if (currNode.rightChild !== null){
+          queue.push(currNode.rightChild);
+        }
+        
+
+
+      }
+      return arrayNumbers;
+    }
+
+    rebalance(){
+
+      let arrayTraversal = this.traversal();
+      let sortedArray = Array.from(new Set(arrayTraversal)).sort((a, b) => a - b);
+      this.root = this.buildTree(sortedArray);
+
+
+    }
 }
 
-let arr = [1,2,3,4,5,6,7,8,9];
+let arr = [1,7,4,23,8,9,4,3,5,7,9,67,6345,324];
 
 let test = new Tree(arr);
-
-let nodex = test.root;
 
 function prettyPrint (nodex, prefix = "", isLeft = true) {
     if (nodex === null) {
@@ -152,6 +198,17 @@ function prettyPrint (nodex, prefix = "", isLeft = true) {
   }
 
 
-  prettyPrint(nodex);
 
-  
+prettyPrint(test.root);
+
+test.insert(10000);
+test.insert(20000);
+test.insert(30000);
+
+console.log(test.traversal());
+
+prettyPrint(test.root);
+
+test.rebalance();
+
+prettyPrint(test.root);
