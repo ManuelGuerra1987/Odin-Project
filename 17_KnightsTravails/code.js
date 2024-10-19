@@ -1,46 +1,37 @@
+function knightMoves([x,y],[w,z]){
 
-function knightMoves([x, y], [w, z]) {
-
-    let start = [x, y];
     let queue = [];
     let path = [];
-    
-    path.push(start);
-    queue.push([start, path]);
+    let moves = [[2,1],[1,2],[-1,2],[-2,1],[-2,-1],[-1,-2],[1,-2],[2,-1]];
 
-    const moves = [
-        [2, 1], [2, -1], [1, 2], [1, -2],
-        [-2, 1], [-2, -1], [-1, 2], [-1, -2]
-    ];
+    path.push([x,y])
+    queue.push([[x,y],path])
 
-    while (queue.length > 0) {
+    while (queue.length > 0){
 
-        let [currentPosition, currentPath] = queue.shift();
-        let [cx, cy] = currentPosition;
+        let [currPos,currPath] = queue.shift();
+        let [currX, currY] = currPos;
 
-        if (cx === w && cy === z) {
-            return currentPath;
+        if (currX === w && currY === z){
+            return currPath;
         }
 
-        // Generate new movements
-        for (let move of moves) {
-            let [dx, dy] = move;
-            let newX = cx + dx;
-            let newY = cy + dy;
+        for (let i = 0; i < 8; i++){
 
-            // Inside board check
-            if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8) {
-                
-                let newPath = currentPath.concat([[newX, newY]]);
+            let move = moves[i];
+            let dx = move[0];
+            let dy = move[1];
 
-                queue.push([[newX, newY], newPath]);
+            if (currX+dx >= 0 && currX+dx <= 7 && currY+dy >= 0 && currY+dy <= 7){
+
+                let cpath = [...currPath];
+                cpath.push([currX+dx,currY+dy]);
+                queue.push([[currX+dx,currY+dy],cpath]);
             }
         }
     }
-
-    
     return;
 }
 
 
-console.log(knightMoves([3, 3], [4, 3]));
+console.log(knightMoves([0, 0], [7, 7]));
