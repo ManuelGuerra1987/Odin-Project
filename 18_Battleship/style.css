@@ -2,7 +2,26 @@ body{
     background-color: rgb(11, 127, 228);
 }
 
-#container{
+#main-container{
+    display: flex;
+    flex-direction: row; 
+    justify-content:space-between; 
+}
+
+#container-human{
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 90%;
+    
+    margin: 0 auto;
+    width: 400px;
+    height: 400px;
+    border: 1px solid black;
+}
+
+#container-pc{
 
     display: flex;
     flex-wrap: wrap;
