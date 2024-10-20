@@ -83,3 +83,57 @@ class Gameboard{
 
     }
 }
+
+class Player{
+    constructor(type){
+        this.type = type;
+        this.board = new Gameboard();
+    }
+}
+
+
+
+
+function createGrid(size,player){
+
+    const containerDiv = document.querySelector("#container");
+    const squareSize = (400 / size).toFixed(2);
+
+    const rows = size;
+    const cols = size;
+
+    if (player.type === "human"){
+
+        for (let i = 0; i < rows; i++){
+            for (let j = 0; j < cols; j++){
+
+                const square = document.createElement('div'); 
+                square.className = 'grid-square'; 
+        
+                square.style.width = `${squareSize}px`;
+                square.style.height = `${squareSize}px`;
+                square.style.border = '1px solid #ccc';
+                square.style.boxSizing = 'border-box';
+    
+                if(player.board.board[i][j] === 1){
+                    square.style.backgroundColor = 'black';
+                }
+                else if(player.board.board[i][j] === 0){
+                    square.style.backgroundColor = 'white';
+                }
+                
+        
+                containerDiv.appendChild(square);
+
+            }
+        }
+    }
+
+}
+
+let player1 = new Player("human");
+
+player1.board.placeShip(4,[[3,1],[3,2],[3,3],[3,4]]);
+player1.board.placeShip(2,[[1,1],[1,2]]);
+
+createGrid(10,player1);

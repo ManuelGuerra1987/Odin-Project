@@ -1,0 +1,26 @@
+body{
+    background-color: rgb(11, 127, 228);
+}
+
+#container{
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 90%;
+    
+    margin: 0 auto;
+    width: 400px;
+    height: 400px;
+    border: 1px solid black;
+}
+
+#button{
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+
+}
+
