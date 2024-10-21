@@ -25,6 +25,7 @@ class Gameboard{
     constructor(){
         this.board = Array.from({ length: 10 }, () => Array(10).fill(0));
         this.ships = [];
+        this.goodShots = [];
         this.missedShots = [];
     }
 
@@ -54,6 +55,7 @@ class Gameboard{
                     if(coord[0] === row && coord[1] === col){
 
                         ship.hit();
+                        this.goodShots.push(coordinate);
                         return;
                     }
                 }
@@ -64,9 +66,27 @@ class Gameboard{
         }
     }
 
+    isInMissedShots(coordinate) {
+        for (let coord of this.missedShots) {
+            if (coord[0] === coordinate[0] && coord[1] === coordinate[1]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    isInGoodShots(coordinate) {
+        for (let coord of this.goodShots) {
+            if (coord[0] === coordinate[0] && coord[1] === coordinate[1]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     hasShipsLeft(){
 
-        let shipsQ = this.ships.length;
+        let shipsQ = parseInt(this.ships.length);
         let shipsSunked = 0;
 
         for (let ship of this.ships){
@@ -98,6 +118,7 @@ function createGrid(size,player){
 
     let containerDiv;
 
+    
     if (player.type === "human"){
         containerDiv = document.querySelector("#container-human");
     }
@@ -126,8 +147,7 @@ function createGrid(size,player){
             else{
                 square.style.backgroundColor = 'white';
             }
-
-                
+             
             containerDiv.appendChild(square);
 
         }
@@ -135,20 +155,32 @@ function createGrid(size,player){
 }
 
 
+function generatePcShoot() {
+    let row, col;
+    do {
+        row = Math.floor(Math.random() * 10);
+        col = Math.floor(Math.random() * 10);
+    } while(player1.board.isInMissedShots([row, col]) || player1.board.isInGoodShots([row, col]));
+    console.log([row,col]);
 
-function generatePcShoot(){
-
-    let row = Math.floor(Math.random() * 10);
-    let col = Math.floor(Math.random() * 10);
-    return [row,col];
+    return [row, col];
 }
 
+function endGame(){
 
+    document.querySelector("#container-human").style.border = "1px solid rgb(11, 127, 228)";
+    document.querySelector("#container-human").innerHTML = "";
+    document.querySelector("#container-pc").style.border = "1px solid rgb(11, 127, 228)";
+    document.querySelector("#container-pc").innerHTML = "";
+    document.querySelector("form").innerHTML = "";
+
+}
 
 function humanTurn() {
-    let titleDiv = document.querySelector("#turn-title");
-    titleDiv.textContent = "Human turn";
-    
+
+    if (!game) return;
+
+    let titleDiv = document.querySelector("#turn-title"); 
     let squares = document.querySelectorAll("#container-pc .grid-square");
 
     squares.forEach((square, index) => {
@@ -160,16 +192,18 @@ function humanTurn() {
                 square.style.backgroundColor = 'red'; 
                 player2.board.receiveAttack([row, col]);
 
-                    if (!player2.board.hasShipsLeft()) {
-                        game = false;
-                        titleDiv.textContent = "Human wins!";
-                        return;
-                    }
+                if (!player2.board.hasShipsLeft()) {
+                    game = false;
+                    titleDiv.textContent = "Human wins!";
+                    endGame();
+                    return;
+                }
 
-                    // Cambiar el turno al PC
-                    squares.forEach(sq => sq.removeEventListener("click", handleHumanAttack)); 
-                    turn = "pc";
-                    setTimeout(pcTurn, 1000);
+                // Cambiar el turno al PC
+                squares.forEach(sq => sq.removeEventListener("click", handleHumanAttack)); 
+                turn = "pc";
+                setTimeout(pcTurn, 1000);
+
             } else if (player2.board.board[row][col] === 0) {
                 square.style.backgroundColor = 'green'; 
                 player2.board.receiveAttack([row, col]);
@@ -177,6 +211,7 @@ function humanTurn() {
                 if (!player2.board.hasShipsLeft()) {
                     game = false;
                     titleDiv.textContent = "Human wins!";
+                    endGame();
                     return;
                 }
 
@@ -194,8 +229,9 @@ function humanTurn() {
 
 function pcTurn() {
 
+    if (!game) return;
+
     let titleDiv = document.querySelector("#turn-title");
-    titleDiv.textContent = "PC turn";
 
     let coord = generatePcShoot();
     let [row, col] = coord;
@@ -205,35 +241,90 @@ function pcTurn() {
     if (player1.board.board[row][col] === 1) {
         square.style.backgroundColor = 'red'; 
         player1.board.receiveAttack([row, col]);
+        
+        if (!player1.board.hasShipsLeft()) {
+            game = false;
+            titleDiv.textContent = "PC wins!";
+            endGame();
+            return;
+        }
+        return;
+       
     } else if (player1.board.board[row][col] === 0) {
         square.style.backgroundColor = 'green'; 
         player1.board.receiveAttack([row, col]);
-    }
-
-   
-    if (!player1.board.hasShipsLeft()) {
-        game = false;
-        titleDiv.textContent = "PC wins!";
+        
+        if (!player1.board.hasShipsLeft()) {
+            game = false;
+            titleDiv.textContent = "PC wins!";
+            endGame();
+            return;
+        }
         return;
+       
     }
 
-    // Cambiar el turno de vuelta al humano 
-    turn = "human";
-    setTimeout(humanTurn, 1000); 
+
 }
-
-let turn = "human";
 let game = true;
-
 let player1 = new Player("human");
 
-player1.board.placeShip(4,[[3,1],[3,2],[3,3],[3,4]]);
-player1.board.placeShip(2,[[1,1],[1,2]]);
+//Add ship
+document.querySelector("#submit-button").addEventListener("click", () => {
+
+    const length = document.querySelector("#form-length").value;
+    const row = document.querySelector("#form-row").value;
+    const col = document.querySelector("#form-col").value;
+
+    let coordinates = [];
+  
+    for (let i = 0; i < length; i++){
+
+        let coordinate = [parseInt(row),parseInt(col) + parseInt(i)];
+        coordinates.push(coordinate);
+    }
+
+    player1.board.placeShip(length,coordinates);
+  
+    document.querySelector("#form-length").value = "";
+    document.querySelector("#form-row").value = "";
+    document.querySelector("#form-col").value = "";
+  
+    let containerDiv = document.querySelector("#container-human");
+    containerDiv.innerHTML = "";
+    createGrid(10,player1);
+  });
+
+
+function generatePcShips(){
+
+    let coordinates1 = [];
+    let row1 = Math.floor(Math.random() * 4);
+    let col1 = Math.floor(Math.random() * 4);
+
+    for (let i = 0; i < 4; i++){
+
+        let coordinate = [parseInt(row1),parseInt(col1) + parseInt(i)];
+        coordinates1.push(coordinate);
+    }
+
+    player2.board.placeShip(4,coordinates1);
+
+    let coordinates2 = [];
+    let row2 = Math.floor(Math.random() * (6 - 4 + 1)) + 4;
+    let col2 = Math.floor(Math.random() * 4);
+
+    for (let i = 0; i < 4; i++){
+
+        let coordinate = [parseInt(row2),parseInt(col2) + parseInt(i)];
+        coordinates2.push(coordinate);
+    }
+
+    player2.board.placeShip(4,coordinates2);
+}
 
 let player2 = new Player("pc");
-player2.board.placeShip(4,[[5,1],[5,2],[5,3],[5,4]]);
-player2.board.placeShip(3,[[0,0],[0,1],[0,2]]);
-
+generatePcShips();
 createGrid(10,player1);
 createGrid(10,player2);
 
