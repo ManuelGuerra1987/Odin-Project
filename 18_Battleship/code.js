@@ -187,44 +187,24 @@ function humanTurn() {
         square.addEventListener("click", function handleHumanAttack() {
             let row = Math.floor(index / 10);
             let col = index % 10;
+            player2.board.receiveAttack([row, col]);
 
             if (player2.board.board[row][col] === 1) {
-                square.style.backgroundColor = 'red'; 
-                player2.board.receiveAttack([row, col]);
-
-                if (!player2.board.hasShipsLeft()) {
-                    game = false;
-                    titleDiv.textContent = "Human wins!";
-                    endGame();
-                    return;
-                }
-
-                // Cambiar el turno al PC
-                squares.forEach(sq => sq.removeEventListener("click", handleHumanAttack)); 
-                turn = "pc";
-                setTimeout(pcTurn, 1000);
-
-            } else if (player2.board.board[row][col] === 0) {
+                square.style.backgroundColor = 'red';
+            }else{
                 square.style.backgroundColor = 'green'; 
-                player2.board.receiveAttack([row, col]);
-
-                if (!player2.board.hasShipsLeft()) {
-                    game = false;
-                    titleDiv.textContent = "Human wins!";
-                    endGame();
-                    return;
-                }
-
-                // Cambiar el turno al PC
-                squares.forEach(sq => sq.removeEventListener("click", handleHumanAttack)); 
-                turn = "pc";
-                setTimeout(pcTurn, 1000);
             }
-            
+                
+            if (!player2.board.hasShipsLeft()) {
+                game = false;
+                titleDiv.textContent = "Human wins!";
+                endGame();
+                return;
+            }
+
+            setTimeout(pcTurn, 1000);
         });
     });
-
- 
 }
 
 function pcTurn() {
@@ -232,39 +212,26 @@ function pcTurn() {
     if (!game) return;
 
     let titleDiv = document.querySelector("#turn-title");
-
     let coord = generatePcShoot();
     let [row, col] = coord;
-    
     let square = document.querySelector(`#container-human .grid-square[data-coordinate='${row}-${col}']`);
+
+    player1.board.receiveAttack([row, col]);
     
     if (player1.board.board[row][col] === 1) {
         square.style.backgroundColor = 'red'; 
-        player1.board.receiveAttack([row, col]);
-        
-        if (!player1.board.hasShipsLeft()) {
-            game = false;
-            titleDiv.textContent = "PC wins!";
-            endGame();
-            return;
-        }
-        return;
-       
-    } else if (player1.board.board[row][col] === 0) {
+    }else{
         square.style.backgroundColor = 'green'; 
-        player1.board.receiveAttack([row, col]);
-        
-        if (!player1.board.hasShipsLeft()) {
-            game = false;
-            titleDiv.textContent = "PC wins!";
-            endGame();
-            return;
-        }
-        return;
-       
     }
-
-
+        
+    if (!player1.board.hasShipsLeft()) {
+        game = false;
+        titleDiv.textContent = "PC wins!";
+        endGame();
+        return;
+    }
+    return;
+    
 }
 let game = true;
 let player1 = new Player("human");
