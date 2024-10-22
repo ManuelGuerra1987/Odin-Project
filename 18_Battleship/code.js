@@ -201,7 +201,7 @@ function humanTurn() {
                 endGame();
                 return;
             }
-
+            titleDiv.textContent = "Pc turn";
             setTimeout(pcTurn, 1000);
         });
     });
@@ -230,6 +230,7 @@ function pcTurn() {
         endGame();
         return;
     }
+    titleDiv.textContent = "Human turn";
     return;
     
 }
