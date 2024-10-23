@@ -243,13 +243,23 @@ document.querySelector("#submit-button").addEventListener("click", () => {
     const length = document.querySelector("#form-length").value;
     const row = document.querySelector("#form-row").value;
     const col = document.querySelector("#form-col").value;
+    const direction = document.querySelector("#form-direction").value;
 
     let coordinates = [];
   
-    for (let i = 0; i < length; i++){
+    if (direction === "horizontal"){
+        for (let i = 0; i < length; i++){
 
-        let coordinate = [parseInt(row),parseInt(col) + parseInt(i)];
-        coordinates.push(coordinate);
+            let coordinate = [parseInt(row),parseInt(col) + parseInt(i)];
+            coordinates.push(coordinate);
+        }
+    }
+    else if (direction === "vertical"){
+        for (let i = 0; i < length; i++){
+
+            let coordinate = [parseInt(row) + parseInt(i),parseInt(col)];
+            coordinates.push(coordinate);
+        }
     }
 
     player1.board.placeShip(length,coordinates);
