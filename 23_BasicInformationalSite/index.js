@@ -1,13 +1,11 @@
 import http from 'http';
 import fs from 'fs/promises';
-import url from 'url';
 import path from 'path';
 
 const PORT = 8000;
 
-// Get current path
-const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Get directory path
+const dirPath = process.cwd();
 
 const server = http.createServer(async (req, res) => {
   try {
@@ -15,11 +13,14 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'GET') {
       let filePath;
       if (req.url === '/') {
-        filePath = path.join(__dirname, 'static', 'index.html');
+        filePath = path.join(dirPath, 'static' ,'index.html');
+  
       } else if (req.url === '/about') {
-        filePath = path.join(__dirname, 'static', 'about.html');
+        filePath = path.join(dirPath, 'static', 'about.html');
+     
       } else if (req.url === '/contact') {
-        filePath = path.join(__dirname, 'static', 'contact-me.html');
+        filePath = path.join(dirPath, 'static','contact-me.html');
+      
       }
       else {
         throw new Error('Not Found');
