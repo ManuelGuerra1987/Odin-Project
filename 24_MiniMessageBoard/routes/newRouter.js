@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const messages = require('../db');
+const { postMessage } = require('../controllers/newController');
 
 const newRouter = Router();
 
@@ -11,15 +11,6 @@ const links = [
 
 newRouter.get("/", (req, res) => {res.render("form", { links: links});});
 
-newRouter.post("/", (req, res) => {
-
-  const newMessage = {text: req.body.messageText, user: req.body.messageUser, added: new Date()};
-
-  messages.push(newMessage);
-
-  res.redirect("/");
-
-});
-
+newRouter.post("/", postMessage);
 
 module.exports = newRouter;
