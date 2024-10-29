@@ -10,12 +10,10 @@ messageRouter.get("/:messageId", (req, res) => {
     
     const messageId  = parseInt(req.params.messageId);
 
-    console.log(messageId)
-
     const message = messages[messageId];
 
     if (!message) {
-        return res.status(404).send("Mensaje no encontrado.");
+        return res.status(404).send("Message not found");
     }
 
     res.render("message", { message: message});});

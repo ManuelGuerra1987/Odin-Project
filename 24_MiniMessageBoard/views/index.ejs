@@ -9,11 +9,12 @@
 
     <h1>Mini Messageboard</h1>
     <ul>
-      <% messages.forEach(function(message) { %>
+      <% messages.forEach(function(message, index) { %>
         <li>
           <strong>Message:</strong> <%= message.text %><br>
           <strong>User:</strong> <%= message.user %><br>
           <strong>Date:</strong> <%= message.added %><br>
+          <a href="/message/<%= index %>"><span> Open </span></a>
         </li>
       <% }) %>
     </ul>
