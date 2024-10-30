@@ -1,23 +1,17 @@
 const express = require("express");
 const app = express();
-
-const indexRouter = require("./routes/indexRouter");
-const newRouter = require("./routes/newRouter");
-const messageRouter = require("./routes/messageRouter");
+const router = require("./routes/router");
 const path = require("node:path");
-const assetsPath = path.join(__dirname, "public");
 
-app.use(express.static(assetsPath));
+const assetsPath = path.join(__dirname, "public"); // Our app should look for static assets in /public subdirectory
+app.use(express.static(assetsPath)); // Middleware function that enables the use of static assets like CSS
+
 app.use(express.urlencoded({ extended: true })); // In order to get and use the data from the form
 
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views")); // Our app should look for templates in /views subdirectory
+app.set("view engine", "ejs"); // This enables EJS as the view engine
 
-
-app.use("/", indexRouter);
-app.use("/new", newRouter);
-app.use("/message", messageRouter);
-
+app.use("/", router);
 
 
 const PORT = 3000;
