@@ -12,6 +12,11 @@
       <% }) %>
     </ul>
 
+    <form method="GET" action="/additem">
+      <input name="category" type="hidden" value="<%= category %>">
+      <button type="submit">Add item</button>
+   </form>
+
     <a href="/"><span> Home </span></a>
   </body>
 </html>

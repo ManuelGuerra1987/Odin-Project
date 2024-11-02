@@ -1,0 +1,19 @@
+
+<html>
+  <head>
+    <title>Homepage</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    
+    <h1>Add item for <%= category %></h1>
+
+    <form method="POST" action="/additem">
+        <input type="text" name="name" placeholder="Name">
+        <input type="text" name="price" placeholder="Price">
+        <input name="category_id" type="hidden" value="<%= category_id %>">
+        <button type="submit">Submit</button>
+     </form>
+
+  </body>
+</html>
