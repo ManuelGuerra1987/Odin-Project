@@ -46,6 +46,16 @@ function addItemToDb (req, res) {
 
 }
 
+function addCat (req, res) {
+    
+  const category = req.body.category;
+
+  db.insertCat(category);
+  
+  res.redirect("/");
+
+}
+
 
 
 module.exports = {
@@ -53,4 +63,5 @@ module.exports = {
   getItems,
   showAddItemForm,
   addItemToDb,
+  addCat,
 };

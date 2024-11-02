@@ -36,8 +36,13 @@ async function getId(category) {
 }
 
 async function insertItem(name, price, category_id) {
-  
+
   await pool.query("INSERT INTO items (name, price, category_id) VALUES ($1, $2, $3)", [name, price, category_id]);
+}
+
+async function insertCat(category) {
+  
+  await pool.query("INSERT INTO categories (category) VALUES ($1)", [category]);
 }
 
 
@@ -47,4 +52,5 @@ module.exports = {
   getItemsByCategory,
   getId,
   insertItem,
+  insertCat,
 };
