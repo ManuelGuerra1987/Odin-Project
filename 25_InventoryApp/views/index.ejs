@@ -6,10 +6,12 @@
   </head>
   <body>
     
-    <br>
-   
-
-    <h1>Homepage</h1>
+    <h1>Categories</h1>
+    <ul>
+      <% categories.forEach(cat => { %>
+        <li><a href="/category/<%= cat.category %>"><%= cat.category %></a></li>
+      <% }) %>
+    </ul>
 
   </body>
 </html>
