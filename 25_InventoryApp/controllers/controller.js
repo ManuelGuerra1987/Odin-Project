@@ -13,8 +13,23 @@ async function getCategories(req, res) {
 }
 
 
+async function getItems(req, res) {
+
+  try {
+    const category = req.params.category;
+    const items = await db.getItemsByCategory(category); 
+    res.render("category", { items }); 
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    res.status(500).send("Error loading items");
+  }
+
+}
+
+
 
 
 module.exports = {
   getCategories,
+  getItems,
 };
