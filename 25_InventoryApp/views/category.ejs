@@ -8,7 +8,12 @@
     <h1>Items</h1>
     <ul>
       <% items.forEach(item => { %>
-        <li><%= item.name %>, $<%= item.price %></li>
+        <li><%= item.name %>, $<%= item.price %>
+          <span><form method="GET" action="/modprice">
+            <input name="item_id" type="hidden" value="<%= item.id %>">
+            <input name="item_name" type="hidden" value="<%= item.name %>">
+            <button type="submit">Update price</button>
+          </form></span></li>
       <% }) %>
     </ul>
 

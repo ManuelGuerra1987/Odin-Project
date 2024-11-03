@@ -56,7 +56,37 @@ function addCat (req, res) {
 
 }
 
+function modPriceGetForm (req, res) {
+    
+  const item_id = req.query.item_id;
+  const item_name = req.query.item_name;
 
+  console.log(item_id);
+  console.log(item_name);
+
+  res.render("modprice", {item_name: item_name, item_id: item_id});
+  
+}
+
+function modPriceGetForm (req, res) {
+    
+  const item_id = req.query.item_id;
+  const item_name = req.query.item_name;
+
+  res.render("modprice", {item_name: item_name, item_id: item_id});
+  
+}
+
+function modPrice (req, res) {
+    
+  const new_price = parseFloat(req.body.new_price).toFixed(2);
+  const item_id = req.body.item_id;
+
+  db.updatePrice(item_id, new_price);
+  
+  res.redirect("/");
+
+}
 
 module.exports = {
   getCategories,
@@ -64,4 +94,6 @@ module.exports = {
   showAddItemForm,
   addItemToDb,
   addCat,
+  modPriceGetForm,
+  modPrice,
 };

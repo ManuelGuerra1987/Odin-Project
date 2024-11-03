@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>Homepage</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    
+    <h1>Update price for: <%= item_name %></h1>
+
+    <form method="POST" action="/modprice">
+        <input type="text" name="new_price" placeholder="New Price">
+        <input name="item_id" type="hidden" value="<%= item_id %>">
+        <button type="submit">Submit</button>
+     </form>
+
+  </body>
+</html>

@@ -46,6 +46,18 @@ async function insertCat(category) {
 }
 
 
+async function updatePrice(item_id, new_price) {
+
+  try {
+    await pool.query("UPDATE items SET price = $1 WHERE id = $2", [new_price, item_id]);
+  
+  } catch (error) {
+    console.error("Error updating item price:", error);
+    throw error;  
+  }
+}
+
+
 
 module.exports = {
   getAllCategories,
@@ -53,4 +65,5 @@ module.exports = {
   getId,
   insertItem,
   insertCat,
+  updatePrice,
 };
