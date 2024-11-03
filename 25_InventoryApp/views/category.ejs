@@ -9,11 +9,17 @@
     <ul>
       <% items.forEach(item => { %>
         <li><%= item.name %>, $<%= item.price %>
-          <span><form method="GET" action="/modprice">
+          <div class="list_item_buttons"><span>
+            <form method="GET" action="/modprice">
             <input name="item_id" type="hidden" value="<%= item.id %>">
             <input name="item_name" type="hidden" value="<%= item.name %>">
             <button type="submit">Update price</button>
-          </form></span></li>
+          </form>
+          <form method="POST" action="/deleteitem">
+            <input name="item_id" type="hidden" value="<%= item.id %>">
+            <button type="submit">Delete item</button>
+          </form>
+        </span></div></li>
       <% }) %>
     </ul>
 

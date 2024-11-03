@@ -57,7 +57,16 @@ async function updatePrice(item_id, new_price) {
   }
 }
 
+async function deleteItem(item_id) {
 
+  try {
+    await await pool.query("DELETE FROM items WHERE id = $1", [item_id]);
+  
+  } catch (error) {
+    console.error("Error eliminating item:", error);
+    throw error;  
+  }
+}
 
 module.exports = {
   getAllCategories,
@@ -66,4 +75,5 @@ module.exports = {
   insertItem,
   insertCat,
   updatePrice,
+  deleteItem,
 };

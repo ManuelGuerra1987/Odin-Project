@@ -88,6 +88,17 @@ function modPrice (req, res) {
 
 }
 
+
+function delItem (req, res) {
+    
+  const item_id = req.body.item_id;
+
+  db.deleteItem(item_id);
+  
+  res.redirect("/");
+
+}
+
 module.exports = {
   getCategories,
   getItems,
@@ -96,4 +107,5 @@ module.exports = {
   addCat,
   modPriceGetForm,
   modPrice,
+  delItem,
 };
