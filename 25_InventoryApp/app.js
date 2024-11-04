@@ -3,6 +3,7 @@ const app = express();
 const router = require("./routes/router");
 const path = require("node:path");
 require('dotenv').config();
+const { createTables } = require("./db/queries");
 
 const assetsPath = path.join(__dirname, "public"); // Our app should look for static assets in /public subdirectory
 app.use(express.static(assetsPath)); // Middleware function that enables the use of static assets like CSS
@@ -19,9 +20,19 @@ app.use("/", router);
 
 
 const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`listening on port ${PORT}!`);
-});
+
+
+createTables()
+  .then(() => {
+    console.log("Tables checked/created successfully.");
+    app.listen(PORT, () => {
+      console.log(`listening on port ${PORT}!`);
+    });
+  })
+  .catch((error) => {
+    console.error("Failed to create tables:", error);
+    process.exit(1); // Termina el proceso si no se pueden crear las tablas
+  });
 
 app.use((err, req, res, next) => {
   console.error(err);

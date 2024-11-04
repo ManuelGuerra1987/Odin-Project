@@ -68,6 +68,33 @@ async function deleteItem(item_id) {
   }
 }
 
+
+async function createTables() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS categories (
+        id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        category VARCHAR(255)
+      );
+
+      CREATE TABLE IF NOT EXISTS items (
+        id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        name VARCHAR(100) NOT NULL,
+        price DECIMAL(10, 2) NOT NULL,
+        category_id INTEGER,
+        CONSTRAINT fk_category
+          FOREIGN KEY (category_id)
+          REFERENCES categories(id)
+          ON DELETE SET NULL
+      );
+    `);
+   
+  } catch (error) {
+   
+    throw error;
+  }
+}
+
 module.exports = {
   getAllCategories,
   getItemsByCategory,
@@ -76,4 +103,5 @@ module.exports = {
   insertCat,
   updatePrice,
   deleteItem,
+  createTables,
 };
