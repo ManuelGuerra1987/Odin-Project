@@ -4,7 +4,7 @@ const pool = require("../db/pool");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
-const { addUser, logoutUser, clubCheck } = require('../controllers/controller');
+const { addUser, logoutUser, clubCheck, addMessage } = require('../controllers/controller');
 
 const router = Router();
 
@@ -55,8 +55,8 @@ router.post("/log-in", passport.authenticate("local", {successRedirect: "/", fai
 router.get("/log-out", logoutUser);
 router.get("/club", (req, res) => {res.render("clubform");});
 router.post("/club", clubCheck);
-  
-
+router.get("/newmessage", (req, res) => {res.render("newmessageform");});  
+router.post("/newmessage", addMessage);
 
 
 module.exports = router;

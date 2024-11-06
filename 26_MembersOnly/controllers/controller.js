@@ -49,10 +49,29 @@ async function clubCheck(req, res) {
         res.status(500).send("Error adding user to the club");
     }
 }
+
+
+async function addMessage(req, res) {
+    try {
+        const title = req.body.title;
+        const content = req.body.content;
+        const user_id = req.user.id;
+  
+        await db.addMessage(title,content, user_id);
+            console.log("message added");
+            res.redirect("/");
+
+    }
+     catch (error) {
+        console.error("Error adding message:", error);
+        res.status(500).send("Error adding message");
+    }
+}
   
 
 module.exports = {
     addUser,
     logoutUser,
     clubCheck,
+    addMessage,
   };
