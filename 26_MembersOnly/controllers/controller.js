@@ -2,6 +2,29 @@ const db = require("../db/queries");
 const bcrypt = require('bcryptjs');
 
 
+async function index(req, res) {
+
+    const messages = await db.getAllmessages(); 
+    const messages_with_username = [];
+
+    for (let message of messages){
+
+        const message_with_username = {};
+        message_with_username.id = message.id;
+        message_with_username.title = message.title;
+        message_with_username.content = message.content;
+        message_with_username.username = await db.getUsername(message.user_id);
+        message_with_username.created_at = message.created_at;
+
+        messages_with_username.push(message_with_username);
+
+    }
+   
+    res.render("index", { user: req.user, messages: messages_with_username }); 
+ 
+  
+  }
+
 async function addUser(req, res) {
     try {
         const username = req.body.username;
@@ -70,6 +93,7 @@ async function addMessage(req, res) {
   
 
 module.exports = {
+    index,
     addUser,
     logoutUser,
     clubCheck,

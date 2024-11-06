@@ -11,7 +11,15 @@ async function getUserId(username) {
     const user_id = parseInt(rows[0].id);
 
     return user_id;
-  }  
+  } 
+  
+  async function getUsername(user_id) {
+
+    const { rows } = await pool.query("SELECT username FROM users WHERE id = $1", [user_id]);
+    const username = rows[0].username;
+
+    return username;
+  }    
 
 async function addUserToClub(user_id) {
 
@@ -26,9 +34,17 @@ async function addMessage(title,content, user_id) {
   }  
 
 
+async function getAllmessages() {
+    const { rows } = await pool.query("SELECT * FROM posts");
+    return rows;
+  }  
+
+
 module.exports = {
     insertUser,
     addUserToClub,
     getUserId,
     addMessage,
+    getAllmessages,
+    getUsername,
 };

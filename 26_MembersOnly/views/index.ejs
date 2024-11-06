@@ -1,4 +1,3 @@
-
 <html>
   <head>
     <title>Homepage</title>
@@ -9,24 +8,35 @@
     <h1>Home</h1>
     <a href="sign-up"><span> Sign up </span></a>
 
-
-
-    <% if (locals.user) {%>
+    <% if (locals.user) { %>
       <h1>WELCOME BACK <%= user.username %></h1>
       <a href="/club">Join the club</a><br>
       <a href="/newmessage">Post new message</a><br>
       <a href="/log-out">LOG OUT</a>
+      <h2>Messages</h2>
+      <ul>
+        <% messages.forEach(message => { %>
+          <li>Title: <%= message.title %><br>
+            Content: <%= message.content %><br>
+            <% if (locals.user.member === true) { %>
+              Author: <%= message.username %><br>
+              Date: <%= message.created_at %><br>
+            <% } %>
+          </li>
+        <% }) %>
+      </ul>
     <% } else { %>
-      <h1>please log in</h1>
+      <h1>Please log in</h1>
       <form action="/log-in" method="POST">
         <label for="username">Username</label>
-        <input id="username" name="username"  type="text" />
+        <input id="username" name="username" type="text" />
         <label for="password">Password</label>
-        <input id="password" name="password"  type="password" />
+        <input id="password" name="password" type="password" />
         <button>Log In</button>
       </form>
-    <%}%>
+    <% } %>
 
   </body>
 </html>
+
 
