@@ -11,6 +11,7 @@
     <% if (locals.user) { %>
       <h1>WELCOME BACK <%= user.username %></h1>
       <a href="/club">Join the club</a><br>
+      <a href="/admin">Upgrade to admin</a><br>
       <a href="/newmessage">Post new message</a><br>
       <a href="/log-out">LOG OUT</a>
       <h2>Messages</h2>
@@ -22,6 +23,9 @@
               Author: <%= message.username %><br>
               Date: <%= message.created_at %><br>
             <% } %>
+            <% if (locals.user.admin === true) { %>
+              <a href="/deletemessage/<%= message.id %>">Delete message</a><br>
+              <% } %>
           </li>
         <% }) %>
       </ul>

@@ -39,6 +39,25 @@ async function getAllmessages() {
     return rows;
   }  
 
+async function updateUserToAdmin(user_id) {
+
+    const admin_status = true;
+
+    await pool.query("UPDATE users SET admin = $1 WHERE id = $2", [admin_status, user_id]);
+  }    
+
+
+async function deleteMessage(messageId) {
+
+    try {
+      await pool.query("DELETE FROM posts WHERE id = $1", [messageId]);
+    
+    } catch (error) {
+      console.error("Error eliminating item:", error);
+      throw error;  
+    }
+  }      
+
 
 module.exports = {
     insertUser,
@@ -47,4 +66,6 @@ module.exports = {
     addMessage,
     getAllmessages,
     getUsername,
+    updateUserToAdmin,
+    deleteMessage,
 };

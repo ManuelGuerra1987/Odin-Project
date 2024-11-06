@@ -4,7 +4,7 @@ const pool = require("../db/pool");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
-const { addUser, logoutUser, clubCheck, addMessage, index } = require('../controllers/controller');
+const { addUser, logoutUser, clubCheck, addMessage, index, adminCheck, delMessage } = require('../controllers/controller');
 
 const router = Router();
 
@@ -57,6 +57,9 @@ router.get("/club", (req, res) => {res.render("clubform");});
 router.post("/club", clubCheck);
 router.get("/newmessage", (req, res) => {res.render("newmessageform");});  
 router.post("/newmessage", addMessage);
+router.get("/admin", (req, res) => {res.render("adminform");});
+router.post("/admin", adminCheck);
+router.get("/deletemessage/:messageId", delMessage);
 
 
 module.exports = router;
