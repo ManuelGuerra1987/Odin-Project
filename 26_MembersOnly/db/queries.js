@@ -35,7 +35,15 @@ async function addMessage(title,content, user_id) {
 
 
 async function getAllmessages() {
-    const { rows } = await pool.query("SELECT * FROM posts");
+    const { rows } = await pool.query(`SELECT posts.id, 
+                                              posts.title, 
+                                              posts.content, 
+                                              posts.created_at, 
+                                              users.username 
+                                      FROM posts 
+                                      JOIN users ON posts.user_id = users.id`);
+
+
     return rows;
   }  
 
