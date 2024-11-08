@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require('cors');
 const router = require("./routes/router");
 const path = require("node:path");
 require('dotenv').config();
@@ -7,18 +8,21 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
 
-const assetsPath = path.join(__dirname, "public"); // Our app should look for static assets in /public subdirectory
-app.use(express.static(assetsPath)); // Middleware function that enables the use of static assets like CSS
+app.use(cors());
+app.use(express.json());
 
-app.use(express.urlencoded({ extended: true })); // In order to get and use the data from the form
+const assetsPath = path.join(__dirname, "public"); 
+app.use(express.static(assetsPath)); 
 
-app.set("views", path.join(__dirname, "views")); // Our app should look for templates in /views subdirectory
-app.set("view engine", "ejs"); // This enables EJS as the view engine
+app.use(express.urlencoded({ extended: true })); 
+
+app.set("views", path.join(__dirname, "views")); 
+app.set("view engine", "ejs"); 
 
 app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
 app.use(passport.session());
 
-app.use("/", router);
+app.use("/api/blog", router);
 
 
 const PORT = 3000;
