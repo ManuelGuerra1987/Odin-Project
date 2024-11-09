@@ -39,9 +39,36 @@ async function createUser (req, res) {
   }
 };
 
+
+async function createPost (req, res) {
+
+  const { title, content, author } = req.body;
+
+
+  try {
+ 
+    const newPost = await prisma.post.create({
+      data: {
+        title,
+        content,
+        author: {
+          connect: { username: author } 
+        }
+      },
+    });
+
+    res.status(201).json({ message: 'Post created successfully' });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error creating post' });
+  }
+};
+
   
 
 module.exports = {
   createUser,
+  createPost,
     
   };
