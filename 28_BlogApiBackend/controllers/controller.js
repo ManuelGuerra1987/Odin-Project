@@ -109,7 +109,7 @@ async function getPostById  (req, res) {
   const postId = parseInt(req.params.id); 
 
   try {
-    
+
     const post = await prisma.post.findUnique({
       where: { id: postId },
       include: {
@@ -147,9 +147,39 @@ async function getPostById  (req, res) {
 
 }  
 
+
+async function deletePost  (req, res) {
+
+  const postId = parseInt(req.params.id); 
+
+  try {
+    
+    const post = await prisma.post.delete({
+
+      where: { id: postId },
+
+    });
+
+    if (!post) {
+      return res.status(404).json({ error: "Post no encontrado" });
+    }
+
+    res.status(200).json({ message: "Post eliminado correctamente", post });
+
+  } 
+  
+  catch (error) {
+    console.error("Error al obtener el post:", error);
+    res.status(500).json({ error: "Hubo un error al obtener el post" });
+  }
+
+
+}
+
 module.exports = {
   createUser,
   createPost,
   getAllPosts, 
   getPostById, 
+  deletePost,
   };

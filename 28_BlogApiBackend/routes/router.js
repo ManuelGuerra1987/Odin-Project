@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
-const { createUser, createPost, getAllPosts, getPostById} = require('../controllers/controller');
+const { createUser, createPost, getAllPosts, getPostById, deletePost} = require('../controllers/controller');
 
 const router = Router();
 
@@ -62,6 +62,7 @@ router.post("/users/signup", createUser);
 router.get("/posts", getAllPosts);
 router.post("/posts", createPost);
 router.get("/posts/:id", getPostById);
+router.delete("/posts/:id", deletePost);
 
 
 module.exports = router;

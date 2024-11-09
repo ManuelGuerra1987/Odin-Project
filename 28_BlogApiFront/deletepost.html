@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog</title>
+</head>
+<body>
+
+  <h2>Delete post</h2>
+  
+  <button  id="deletePost">Get</button>
+
+  <div id="message"></div> 
+
+  <script>
+
+
+    document.querySelector("#deletePost").addEventListener('click', async function(event) {
+      event.preventDefault(); // Prevenimos que el formulario se envíe de forma tradicional
+
+
+      try {
+     
+        const postId = 4;
+        
+        const response = await fetch(`http://localhost:3000/api/blog/posts/${postId}`, {
+            
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            });
+
+        const data = await response.json();
+
+        // Si la creación fue exitosa, mostramos el mensaje
+        if (response.ok) {
+      
+          console.log(data);
+        } else {
+          document.getElementById('message').innerHTML = 'Error: ' + data.error;
+        }
+
+      } catch (error) {
+        document.getElementById('message').innerHTML = 'Hubo un problema al crear el usuario.';
+      }
+    });
+  </script>
+
+</body>
+</html>
