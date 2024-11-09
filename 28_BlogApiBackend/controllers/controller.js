@@ -104,10 +104,52 @@ async function getAllPosts (req, res) {
 
 }
 
-  
+async function getPostById  (req, res) {
+
+  const postId = parseInt(req.params.id); 
+
+  try {
+    
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      include: {
+        author: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            content: true,
+            author: {
+              select: {
+                id: true,
+                username: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!post) {
+      return res.status(404).json({ error: "Post no encontrado" });
+    }
+
+    res.status(200).json(post);
+  } catch (error) {
+    console.error("Error al obtener el post:", error);
+    res.status(500).json({ error: "Hubo un error al obtener el post" });
+  }
+
+
+}  
 
 module.exports = {
   createUser,
   createPost,
-  getAllPosts,  
+  getAllPosts, 
+  getPostById, 
   };
