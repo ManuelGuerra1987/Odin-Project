@@ -176,10 +176,45 @@ async function deletePost  (req, res) {
 
 }
 
+
+async function addCommentToPost  (req, res) {
+
+  const postId = parseInt(req.params.id);
+  const { content, author } = req.body;
+
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+
+    if (!post) {
+      return res.status(404).json({ error: "Post no encontrado" });
+    }
+
+    const newComment = await prisma.comment.create({
+      data: {
+        content: content,
+        author: { connect: { username: author } },
+        post: { connect: { id: postId } },
+      },
+    });
+
+    res.status(201).json({ message: "Comentario agregado correctamente", newComment });
+  } catch (error) {
+    console.error("Error al agregar el comentario:", error);
+    res.status(500).json({ error: "Hubo un error al agregar el comentario" });
+  }
+
+  
+
+
+}
+
 module.exports = {
   createUser,
   createPost,
   getAllPosts, 
   getPostById, 
   deletePost,
+  addCommentToPost,
   };
