@@ -37,7 +37,7 @@ async function createUser (req, res) {
     console.error(err);
     res.status(500).json({ error: 'Error creating user' });
   }
-};
+}
 
 
 async function createPost (req, res) {
@@ -57,18 +57,57 @@ async function createPost (req, res) {
       },
     });
 
-    res.status(201).json({ message: 'Post created successfully' });
+    res.status(201).json({ message: 'Post created successfully',
+                           title: title,       
+     });
 
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Error creating post' });
   }
-};
+}
+
+
+async function getAllPosts (req, res) {
+
+  try {
+    const posts = await prisma.post.findMany({
+      include: {
+        author: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            content: true,
+            author: {
+              select: {
+                id: true,
+                username: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    res.status(200).json(posts);
+  } 
+  
+  catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ error: "An error occurred while fetching posts." });
+  }
+
+
+}
 
   
 
 module.exports = {
   createUser,
   createPost,
-    
+  getAllPosts,  
   };
