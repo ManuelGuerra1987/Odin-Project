@@ -183,6 +183,8 @@ function getCreatePostForm(){
           
           if (response.ok) {
             console.log(data);
+            mainContainer.innerHTML = "";
+            getPosts();
           } 
   
         } catch (error) {
@@ -302,6 +304,8 @@ async function getPost(id){
       if (response.ok) {
   
         console.log(data);
+        mainContainer.innerHTML = "";
+        getPost(id);
       } 
 
     } catch (error) {
