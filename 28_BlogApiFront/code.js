@@ -116,11 +116,15 @@ function getSignForm(){
           
           if (response.ok) {
             console.log(data);
+            mainContainer.innerHTML = "";
+            getPosts();
           } 
   
         } catch (error) {
             console.log(error);
         }
+
+
       });
 
      
