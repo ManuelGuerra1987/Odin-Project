@@ -197,8 +197,76 @@ async function getPost(id){
     contentElement.textContent = data.content; 
     mainContainer.appendChild(contentElement); 
 
-  
+    //Comments
+    const commentsDiv = document.createElement('div');
 
+    const titleCommentsElement = document.createElement("h2");
+    titleCommentsElement.textContent = "Comments";      
+    commentsDiv.appendChild(titleCommentsElement);
+
+    const comments = data.comments;
+
+    comments.forEach(comment => {
+      const commentItem = document.createElement("p");
+      commentItem.textContent = comment.content;
+      commentsDiv.appendChild(commentItem);
+  });
+
+  mainContainer.appendChild(commentsDiv);
+
+  //Add comment
+  const titleAddCommentsElement = document.createElement("h3");
+  titleAddCommentsElement.textContent = "Add comment";      
+  mainContainer.appendChild(titleAddCommentsElement);
+
+  const addCommentDiv = document.createElement('div');
+
+  addCommentDiv.innerHTML = `
+  <form id="addPost">
+
+    <textarea name="content" id="content" rows="8" cols="40" placeholder="Content"></textarea><br><br>
+
+    <label for="author">Author</label>
+    <input type="text" id="author" name="author" required><br><br>
+
+    <button type="submit">Submit</button>
+  </form>
+  `;
+
+  mainContainer.appendChild(addCommentDiv);
+
+  const addCommenForm = document.getElementById('addPost');
+
+  addCommenForm.addEventListener('submit', async function(event) {
+    event.preventDefault(); 
+
+    const content = document.getElementById('content').value;
+    const author = document.getElementById('author').value;
+
+    try {
+
+      const response = await fetch(`http://localhost:3000/api/blog/posts/${id}/comments`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content, author }),
+      });
+
+      const data = await response.json();
+
+ 
+      if (response.ok) {
+  
+        console.log(data);
+      } 
+
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  
 }
 
 
