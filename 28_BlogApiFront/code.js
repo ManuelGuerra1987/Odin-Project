@@ -16,18 +16,29 @@ function createPost(title, content, id) {
     postDiv.appendChild(contentElement);
 
        
-    const linkElement = document.createElement('a');
-    linkElement.href = '#';
-    linkElement.textContent = 'Ver Post';
+    const linkSeePostElement = document.createElement('a');
+    linkSeePostElement.href = '#';
+    linkSeePostElement.textContent = 'See Post';
     
         
-    linkElement.addEventListener('click', function(event) {
+    linkSeePostElement.addEventListener('click', function(event) {
         event.preventDefault();
-        console.log("Post ID:", id);
         getPost(id); 
     });
     
-    postDiv.appendChild(linkElement);
+    postDiv.appendChild(linkSeePostElement);
+
+    const linkDelPostElement = document.createElement('a');
+    linkDelPostElement.href = '#';
+    linkDelPostElement.textContent = 'Delete Post';
+    
+        
+    linkDelPostElement.addEventListener('click', function(event) {
+        event.preventDefault();
+        delPost(id); 
+    });
+    
+    postDiv.appendChild(linkDelPostElement);
 
     return postDiv;
 }
@@ -176,6 +187,34 @@ function getCreatePostForm(){
       });
 
     
+
+}
+
+async function delPost(id){
+
+  try{
+
+  const response = await fetch(`http://localhost:3000/api/blog/posts/${id}`, {
+            
+    method: 'DELETE',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      
+      console.log(data);
+    }
+  }
+  catch (error) {
+    console.log(error);
+}
+
+mainContainer.innerHTML = "";
+getPosts();
 
 }
 
